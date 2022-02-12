@@ -40,15 +40,17 @@ export default NextAuth({
                         ),
 
                         q.Get(
-                            q.Index('user_by_email'),
-                            q.Casefold(user.email),
+                            q.Match(
+                                q.Index('user_by_email'),
+                                q.Casefold(user.email),
+                            )
                         )
                     )
 
                 )
                 return true;
-            } catch(e) {
-                console.log(`Erro: ${e}`);
+            } catch (e) {
+                console.log(e);
                 return false;
             }
         }
