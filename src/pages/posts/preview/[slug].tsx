@@ -1,4 +1,4 @@
-import { GetStaticProps } from "next";
+import { GetStaticPaths, GetStaticProps } from "next";
 //import { getSession } from "next-auth/react";
 import { getPrismicClient } from "../../../services/prismic";
 import { RichText } from 'prismic-dom';
@@ -57,10 +57,13 @@ export default function PostPreview({ post }: PostPreviewProps) {
 }
 
 
-export const getStaticPaths = () => {
+export const getStaticPaths: GetStaticPaths = async () => {
     return {
         paths: [],
         fallback: 'blocking',
+        // true: se alguém tentar acesar um post que não foi gerado estático, vai carregar pelo client-side. 
+        // false: se o post não foi gerado de forma estática ainda irá retornar um 404 e pronto. 
+        // or blocking: um funcionamento parecido com o true mas se não for gerado estático ele irá tentar carregar o conteúdo novo porém carregar na camada do ServerSideRendering (camada do next)
     }
 
 }
@@ -89,6 +92,8 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     return {
         props: {
             post,
-        }
+        },
+
+        redirect: 60 * 30 // 30 minutes
     }
 }

@@ -8,3 +8,10 @@
 - For listen stripe localhost 
 
    * ./stripe listen --forward-to localhost:3000/api/webhooks
+
+
+- To-Do
+
+  * Make Responsive
+  * Put in Firebase
+  * Create Banners and background for github README. 
